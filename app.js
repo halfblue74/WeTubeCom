@@ -62,11 +62,13 @@ import helmet from "helmet";  //helmet 호출
 import cookieParser from "cookie-parser";  //cookie-parser 호출
 import bodyParser from "body-parser";   //body-parser 호출
 
+import { localsMiddleware } from "./middlewares";
 import globalRouter from "./routers/globalRouter";
 import userRouter  from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
 import routes from "./routes";  //설치 된 모듈과는 다르게 export 된 것이므로 호출 형식이 다름.
+
 
 
 const app = express();  //const로 선언한 변수 app에 express를 실행 후 담음.
@@ -94,7 +96,6 @@ const handleEndConn = (req, res, next) => {
 }
 */
 
-app.set('view engine', "pug");  //view engine 설정값을 pug로 변경
 
 //실행 순위에 유의 할 것. 미들웨어의 경우 위치에 따른 실행이므로 영향을 받는 함수와 그렇지 못하는 함수 발생
 //예를 들어 app.get("/", handleMain) 아래 위치 시킨다면 handleMain 함수 실행 시 middleware는 실행 되지 않음
@@ -106,11 +107,15 @@ app.set('view engine', "pug");  //view engine 설정값을 pug로 변경
 //morgan common 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile HTTP/1.1)
 //morgan dev 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile 304 3.490 ms - -)
 
+app.use(helmet());  //helmet(middleware) 전역 실행
+app.set('view engine', "pug");  //view engine 설정값을 pug로 변경
 app.use(cookieParser());
 app.use(bodyParser.json()); //body-parser 옵션: urlencoded(Html), json 등
 app.use(bodyParser.urlencoded({extended: true}));  
-app.use(helmet());  //helmet(middleware) 전역 실행
 app.use(morgan("dev"));  //morgan(middleware) 전역 실행
+
+
+app.use(localsMiddleware);
 
 /*
 app.get("/", handleMain); //웹브라우저에서 / 호출 시 handleMain 함수 실행
