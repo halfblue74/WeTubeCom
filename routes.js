@@ -9,16 +9,17 @@ const Search = "/search";
 
 //유저(Users) 라우트 변수
 const Users = "/users";
+const User_Detail = "/:id/";
 const Edit_Profile = "/edit-profile";
 const Change_Password = "/change-password";
-const User_Detail = "/:id/";
+
 
 //동영상(Videos) 라우트 변수
 const Videos = "/videos";
 const Upload = "/upload";
 const Video_Detail = "/:id";
 const Edit_Video = "/:id/edit";
-const Delete_Video = "/:id/Delete"
+const Delete_Video = "/:id/delete";
 
 //오브젝트(object) 생성
 const routes = {
@@ -29,13 +30,25 @@ const routes = {
   search: Search,
 
   users: Users,
-  userDetail: User_Detail,
+  userDetail: id => {
+    if (id) {
+      return `/users/${id}`;
+    } else {
+      return User_Detail;
+    }
+  },    
   editProfile: Edit_Profile,
   changePassword: Change_Password,
   
   videos: Videos,
   upload: Upload,
-  videoDetail: Video_Detail,
+  videoDetail: id => {
+    if (id) {
+      return `/videos/${id}`;
+    } else {
+      return Video_Detail;
+    }
+  },
   editVideo: Edit_Video,
   deleteVideo: Delete_Video
 };

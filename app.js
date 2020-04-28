@@ -111,7 +111,7 @@ app.use(helmet());  //helmet(middleware) 전역 실행
 app.set('view engine', "pug");  //view engine 설정값을 pug로 변경
 app.use(cookieParser());
 app.use(bodyParser.json()); //body-parser 옵션: urlencoded(Html), json 등
-app.use(bodyParser.urlencoded({extended: true}));  
+app.use(bodyParser.urlencoded({extended: true}));  //post 전송 관련
 app.use(morgan("dev"));  //morgan(middleware) 전역 실행
 
 
