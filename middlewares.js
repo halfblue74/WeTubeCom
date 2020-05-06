@@ -1,4 +1,7 @@
+import multer from "multer";
 import routes from "./routes";
+
+const multerVideo = multer({ dest: "videos/" });
 
 export const localsMiddleware = (req, res, next) => {
 
@@ -10,3 +13,5 @@ export const localsMiddleware = (req, res, next) => {
   }
   next(); //app.js에서 해당 미들웨어가 커넥션과 라우트들 즉 다른 미들웨어 사이에 있을 땐 next() 삽입
 };
+
+export const uploadVideo = multerVideo.single("videoFile"); //single은 하나의 파일만 업로드 가능
