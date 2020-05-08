@@ -63,11 +63,10 @@ import cookieParser from "cookie-parser";  //cookie-parser 호출
 import bodyParser from "body-parser";   //body-parser 호출
 
 import { localsMiddleware } from "./middlewares";
+import routes from "./routes";  //설치 된 모듈과는 다르게 export 된 것이므로 호출 형식이 다름.
 import globalRouter from "./routers/globalRouter";
 import userRouter  from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
-
-import routes from "./routes";  //설치 된 모듈과는 다르게 export 된 것이므로 호출 형식이 다름.
 
 
 
@@ -109,6 +108,7 @@ const handleEndConn = (req, res, next) => {
 
 app.use(helmet());  //helmet(middleware) 전역 실행
 app.set('view engine', "pug");  //view engine 설정값을 pug로 변경
+app.use("/uploads", express.static("uploads"));
 app.use(cookieParser());
 app.use(bodyParser.json()); //body-parser 옵션: urlencoded(Html), json 등
 app.use(bodyParser.urlencoded({extended: true}));  //post 전송 관련
