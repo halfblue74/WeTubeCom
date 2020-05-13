@@ -56,21 +56,23 @@
 //터미널 명령어(Pug 설치): npm install pug
 
 //const express = require('express'); //node_modules 내의 express 폴더 호출(require 또는 import)
-import express from "express";  //express.js 프레임워크 호출
-import morgan from "morgan";  //morgan 호출
-import helmet from "helmet";  //helmet 호출
-import cookieParser from "cookie-parser";  //cookie-parser 호출
-import bodyParser from "body-parser";   //body-parser 호출
+import express from "express"; //express.js 프레임워크 호출
+import morgan from "morgan"; //morgan 호출
+import helmet from "helmet"; //helmet 호출
+import cookieParser from "cookie-parser"; //cookie-parser 호출
+import bodyParser from "body-parser"; //body-parser 호출
 
-import { localsMiddleware } from "./middlewares";
-import routes from "./routes";  //설치 된 모듈과는 다르게 export 된 것이므로 호출 형식이 다름.
+import {
+  localsMiddleware
+} from "./middlewares";
+import routes from "./routes"; //설치 된 모듈과는 다르게 export 된 것이므로 호출 형식이 다름.
 import globalRouter from "./routers/globalRouter";
-import userRouter  from "./routers/userRouter";
+import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
 
 
-const app = express();  //const로 선언한 변수 app에 express를 실행 후 담음.
+const app = express(); //const로 선언한 변수 app에 express를 실행 후 담음.
 
 /*
 const handleListening = () => console.log('Listening on: http://localhost:{port}');
@@ -96,23 +98,26 @@ const handleEndConn = (req, res, next) => {
 */
 
 
-//실행 순위에 유의 할 것. 미들웨어의 경우 위치에 따른 실행이므로 영향을 받는 함수와 그렇지 못하는 함수 발생
-//예를 들어 app.get("/", handleMain) 아래 위치 시킨다면 handleMain 함수 실행 시 middleware는 실행 되지 않음
+// 실행 순위에 유의 할 것. 미들웨어의 경우 위치에 따른 실행이므로 영향을 받는 함수와 그렇지 못하는 함수 발생
+// 예를 들어 app.get("/", handleMain) 아래 위치 시킨다면 handleMain 함수 실행 시 middleware는 실행 되지 않음
 
-//app.use(betweenMain); //middleware 전역 실행
+// app.use(betweenMain); //middleware 전역 실행
 
-//morgan tiny 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile 304 - - 3.030 ms)
-//morgan combined 옵션: 페이지 접속 시 콘솔 log 표기(ex. "GET /profile HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36)
-//morgan common 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile HTTP/1.1)
-//morgan dev 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile 304 3.490 ms - -)
+// morgan tiny 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile 304 - - 3.030 ms)
+// morgan combined 옵션: 페이지 접속 시 콘솔 log 표기(ex. "GET /profile HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36)
+// morgan common 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile HTTP/1.1)
+// morgan dev 옵션: 페이지 접속 시 콘솔 log 표기(ex. GET /profile 304 3.490 ms - -)
 
-app.use(helmet());  //helmet(middleware) 전역 실행
-app.set('view engine', "pug");  //view engine 설정값을 pug로 변경
+app.use(helmet()); //helmet(middleware) 전역 실행
+app.set('view engine', "pug"); //view engine 설정값을 pug로 변경
 app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static("static"));
 app.use(cookieParser());
 app.use(bodyParser.json()); //body-parser 옵션: urlencoded(Html), json 등
-app.use(bodyParser.urlencoded({extended: true}));  //post 전송 관련
-app.use(morgan("dev"));  //morgan(middleware) 전역 실행
+app.use(bodyParser.urlencoded({
+  extended: true
+})); //post 전송 관련
+app.use(morgan("dev")); //morgan(middleware) 전역 실행
 
 
 app.use(localsMiddleware);
@@ -126,7 +131,7 @@ app.get("/profile", handleProfile); //웹브라우저에서 /profile 호출 시 
 */
 
 app.use(routes.main, globalRouter); //app.use는 /user로 접속 시 router 전체를 사용 하겠다는 의미(기본적으로 index로 호출)
-app.use(routes.users, userRouter); 
+app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
 
 export default app; //파일 호출(import) 시 app object 제공
