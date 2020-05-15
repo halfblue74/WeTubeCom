@@ -20,6 +20,9 @@ const Video_Detail = "/:id";
 const Edit_Video = "/:id/edit";
 const Delete_Video = "/:id/delete";
 
+const Github = "/auth/github";
+const Github_Callback = "/auth/github/callback";
+
 // 오브젝트(object) 생성
 const routes = {
   main: Main,
@@ -63,6 +66,8 @@ const routes = {
       return Delete_Video;
     }
   },
+  gitHub: Github,
+  githubCallback: Github_Callback
 };
 
 export default routes;
