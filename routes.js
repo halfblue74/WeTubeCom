@@ -12,6 +12,7 @@ const Users = "/users";
 const User_Detail = "/:id/";
 const Edit_Profile = "/edit-profile";
 const Change_Password = "/change-password";
+const Me = "/me";
 
 // 동영상(Videos) 라우트 변수
 const Videos = "/videos";
@@ -20,8 +21,13 @@ const Video_Detail = "/:id";
 const Edit_Video = "/:id/edit";
 const Delete_Video = "/:id/delete";
 
+// 깃허브 소셜 로그인
 const Github = "/auth/github";
 const Github_Callback = "/auth/github/callback";
+
+// 페이스북 소셜 로그인
+const Facebook = "/auth/facebook";
+const Facebook_Callback = "/auth/facebook/callback";
 
 // 오브젝트(object) 생성
 const routes = {
@@ -66,8 +72,11 @@ const routes = {
       return Delete_Video;
     }
   },
+  me: Me,
   gitHub: Github,
-  githubCallback: Github_Callback
+  githubCallback: Github_Callback,
+  facebook: Facebook,
+  facebookCallback: Facebook_Callback
 };
 
 export default routes;
